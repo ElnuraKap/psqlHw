@@ -1,44 +1,40 @@
---1
-SELECT brand,model,price FROM cars;
---2
-SELECT count(id) FROM cars;
---3
-SELECT * FROM cars WHERE brand = 'Hyundai';
---4
-SELECT * FROM cars WHERE color = 'Red' Or  color = 'Blue';
---5
-SELECT  * FROM cars WHERE year_of_issue BETWEEN '2000'AND '2010';
---6
-SELECT  count(brand) FROM cars WHERE brand = 'Chevrolet' ;
---7
-SELECT Round(AVG(year_of_issue)) FROM cars;
---8
-SELECT * FROM cars WHERE brand in ('Audi', 'Toyota', 'Kia' , 'Ford') ;
---9
-SELECT * FROM cars WHERE model LIKE ('T%');
---10
-SELECT * FROM cars WHERE model  LIKE ('%e');
---11
-SELECT * FROM cars WHERE brand  LIKE ('_____');
---12
-SELECT ROUND(SUM(price)) FROM cars WHERE brand  LIKE ('Mercedes-Benz');
---13
-SELECT * FROM cars WHERE price =(SELECT MAX(price) FROM cars) Or price = (SELECT MIN(price)
- FROM cars) order by price desc ;
---14
-SELECT * FROM cars WHERE brand NOT ILIKE ('TOYOTA');
---15
-SELECT * FROM cars ORDER BY price DESC LIMIT 10;
---16
-SELECT * FROM cars ORDER BY year_of_issue DESC OFFSET 5 LIMIT 10;
---17
-SELECT *  FROM cars WHERE  year_of_issue NOT BETWEEN '1995' AND '2005';
---18
-SELECT color ,COUNT(*) as color_count FROM cars GROUP BY color ORDER BY COUNT(*) DESC;
+CREATE TABLE products2 (
+     id SERIAL PRIMARY KEY,
+     productName VARCHAR (30) NOT NULL,
+     company VARCHAR (20) NOT NULL,
+     productCount INT DEFAULT  0,
+     price NUMERIC  NOT NULL,
+     isDiscounted BOOL
+);
+
+INSERT INTO products2 (productName, company, productCount, price, isDiscounted)
+VALUES ('iPhone X', 'Apple', 3, 76000, false),
+       ('iPhone 8', 'Apple', 2, 71000, true),
+       ('iPhone 7', 'Apple' , 5, 42000, true),
+       ( 'Galaxy S9', 'Samsung' , 2, 46000, false),
+       ( 'Galaxy S8 Plus', 'Samsung' , 1, 56000, true),
+       ('Desire 12', 'HTC', 5, 28000, true),
+       ('Nokia 9', 'HMD Global', 6, 38000, true);
 
 
+SELECT * FROM products2 WHERE NOT company = 'HTC';
 
+SELECT * FROM products2 WHERE  company ='Apple'AND price > 75000;
 
+SELECT * FROM products2 WHERE price < 46000  or price = 46000;
 
+SELECT  price FROM products2 ORDER BY price DESC LIMIT 2;
 
+SELECT MIN(productName) AS SmallestPriceProduct FROM products2;
+
+SELECT * FROM products2 WHERE isDiscounted = true;
+
+SELECT * FROM products2 WHERE isDiscounted = false;
+
+SELECT * FROM products2 ORDER BY price DESC ;
+
+SELECT SUM(price) AS sumprice FROM products2;
+
+SELECT company, Count(*) as modelCount
+FROM products2 group by company   having count(*)<=2;
 
